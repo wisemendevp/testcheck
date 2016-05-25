@@ -20,5 +20,6 @@
 // Declare some properties (to be explained soon)
 @property (strong, nonatomic) ownioscam* plugin;
 @property (strong, nonatomic) UIImagePickerController* picker;
+@property (strong, nonatomic) IBOutlet UIView *cameraviewlayout;
 
 @end

@@ -3,50 +3,85 @@
 
 @implementation ownioscamController
 
+@synthesize cameraviewlayout;
 // Entry point method
+
+//-(BOOL)     shouldAutorotate
+//{
+ //   return NO;
+//}
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Instantiate the UIImagePickerController instance
-        self.picker = [[UIImagePickerController alloc] init];
+      
+      //  self.cameraviewlayout = [[self.CameraOverlayView alloc] initWithFrame:self.view.bounds];
+    //    [self setOverlayViewModel];
         
-        // Configure the UIImagePickerController instance
+        self.picker = [[UIImagePickerController alloc] init];
+        self.picker.delegate = self;
+        
+        self.picker.modalPresentationStyle = UIModalPresentationCustom;
+        
+       // [[UIDevice currentDevice]  setOrienation:UIInterfaceOrientationIsPortrait(uipo))];
+        
         self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        self.picker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
-        self.picker.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+   
+       self.picker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
+       self.picker.cameraDevice = UIImagePickerControllerCameraDeviceRear;
         self.picker.showsCameraControls = NO;
-    //    self.picker.wantsFullScreenLayout = yes;
+
+       self.picker.toolbarHidden=YES;
+    //   self.picker.modalPresentationStyle = UIModalPresentationFullScreen;
+      //  self.picker.view.gestureRecognizers
+        
+        
+        
+        //   self.camera.showsCameraControls = NO;
+    
+    //    self.picker.toolbarHidden = yes;
+        
+       
        // self.picker.cameraFlashMode = UIImagePickerControllerCameraFlashModeOn;
         
         // Make us the delegate for the UIImagePickerController
-        self.picker.delegate = self;
+       // CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+        
+        // iOS is going to calculate a size which constrains the 4:3 aspect ratio
+        // to the screen size. We're basically mimicking that here to determine
+        // what size the system will likely display the image at on screen.
+        // NOTE: screenSize.width may seem odd in this calculation - but, remember,
+        // the devices only take 4:3 images when they are oriented *sideways*.
+      //  CGSize screenBounds = [UIScreen mainScreen].bounds.size;
+        
+       // CGFloat cameraAspectRatio = 4.0f/3.0f;
+        
+     //   CGFloat camViewHeight = screenBounds.width * cameraAspectRatio;
+     //   CGFloat scale = screenBounds.height / camViewHeight;
+        
+    //    self.picker.cameraViewTransform = CGAffineTransformMakeTranslation(0, (screenBounds.height - camViewHeight) / 2.0);
+    //    self.picker.cameraViewTransform = CGAffineTransformScale(self.picker.cameraViewTransform, scale, scale);
+        
+    //    self.picker.cameraViewTransform= YES;
      //   self.overlay = [[ownioscamController alloc] init @"ownioscam" bundle:nil]
                         
-        UIView *controllerView = self.picker.view;
+    //   cameraviewlayout = self.picker.view;
         
-        controllerView.alpha = 0.0;
-        controllerView.transform = CGAffineTransformMakeScale(0.5, 0.5);
         
-        [[[[UIApplication sharedApplication] delegate] window] addSubview:controllerView];
-        
-        [UIView animateWithDuration:0.3
-                              delay:0.0
-                            options:UIViewAnimationOptionCurveLinear
-                         animations:^{
-                             controllerView.alpha = 1.0;
-                         }
-                         completion:nil
-         ];
         
         // Set the frames to be full screen
-      //  CGRect screenFrame = [[UIScreen mainScreen] bounds];
-       // self.view.frame = screenFrame;
-     //   self.picker.view.frame = screenFrame;
-        
+      CGRect screenFrame = [[UIScreen mainScreen] bounds];
+       self.view.frame = screenFrame;
+      self.picker.view.frame = screenFrame;
+    
         // Set this VC's view as the overlay view for the UIImagePickerController
-      //  self.picker.cameraOverlayView = self.view;
+      self.picker.cameraOverlayView = self.view;
+    //    cameraviewlayout =  self.picker.cameraOverlayView;
        // [self presentedViewController : self.picker animated:true completion:nil];
-        [self presentModalViewController:self.picker animated:YES];
+     // [self presentViewController:self.picker animated:false completion:nil];
+      
+        
+      //  [self.picker release];
     }
     return self;
 }
@@ -55,6 +90,7 @@
 -(IBAction) takePhotoButtonPressed:(id)sender forEvent:(UIEvent*)event {
     // Call the takePicture method on the UIImagePickerController to capture the image.
     [self.picker takePicture];
+  //  [self presentModalViewController:self.picker animated:YES];
     
 }
 
